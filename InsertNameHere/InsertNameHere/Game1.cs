@@ -13,7 +13,8 @@ namespace InsertNameHere
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
-        TileMatrix mat;
+        Level l1;
+        
         Tile Cursor;
         int ButtonCooldown = 0;
         public Game1()
@@ -31,8 +32,7 @@ namespace InsertNameHere
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Cursor = new Tile(Content.Load<Texture2D>("RedBorder.png"));
-            mat = new TileMatrix(100, 100, Content.Load<Texture2D>("gras.png"));
+            
             base.Initialize();
         }
 
@@ -46,6 +46,14 @@ namespace InsertNameHere
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            textureCache.Add("BaseTexture", Content.Load<Texture2D>("gras.png"));
+            textureCache.Add("BuildCursor", Content.Load<Texture2D>("RedBorder.png"));
+            textureCache.Add("WoodWall", Content.Load<Texture2D>("holzwand.png"));
+            textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
+            Texture2D tmp;
+            textureCache.TryGetValue("BuildCursor", out tmp);
+            Cursor = new Tile(tmp);
+            l1 = new Level(textureCache);
         }
 
         /// <summary>
@@ -66,24 +74,28 @@ namespace InsertNameHere
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
             if (ButtonCooldown <= 0)
             {
-                if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed)
+                var LeftStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
+                var RightStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right;
+
+                if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || LeftStick.X <= -.5f || RightStick.X <= -.5f)
                 {
                     Cursor.SetPosition(Cursor.xPosition - 100, Cursor.yPosition);
                     ButtonCooldown = 10;
                 }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed)
+                if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || LeftStick.X >= .5f || RightStick.X >= .5f)
                 {
                     Cursor.SetPosition(Cursor.xPosition + 100, Cursor.yPosition);
                     ButtonCooldown = 10;
                 }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
+                if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || LeftStick.Y >= .5f || RightStick.Y >= .5f)
                 {
                     Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition - 100);
                     ButtonCooldown = 10;
                 }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed)
+                if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || LeftStick.Y <= -.5f || RightStick.Y <= -.5f)
                 {
                     Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 100);
                     ButtonCooldown = 10;
@@ -106,8 +118,7 @@ namespace InsertNameHere
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             // TODO: Add your drawing code here
-            mat.Draw(spriteBatch);
-
+            l1.Draw(spriteBatch);
             Cursor.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();

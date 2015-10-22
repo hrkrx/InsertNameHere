@@ -14,6 +14,8 @@ namespace InsertNameHere
         public double xPosition = 0;
         public double yPosition = 0;
 
+        public int rotation = 0;
+
         public Tile (Texture2D texture)
         {
             if (texture.Bounds.Height == ySize && texture.Bounds.Width == xSize)
@@ -38,10 +40,19 @@ namespace InsertNameHere
             yPosition = y;
         }
 
+        public void Rotate(int degrees)
+        {
+            rotation += degrees;
+            if (rotation > 360)
+            {
+                rotation -= 360;
+            }
+        }
+
         public void Draw(SpriteBatch spritebatch)
         {
-            Rectangle r = new Rectangle((int)(xPosition), (int)(yPosition), xSize, ySize);
-            spritebatch.Draw(texture, r, Color.White);
+            Vector2 r = new Vector2((int)(xPosition), (int)(yPosition));
+            spritebatch.Draw(texture, r, null, Color.White, (float)(Math.PI * 0.5 * (rotation / 90)), new Vector2(texture.Width, texture.Height), 1, SpriteEffects.None, 0);
         }
     }
 }
