@@ -1,4 +1,5 @@
 ﻿using InsertNameHere.Enums;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -17,6 +18,7 @@ namespace InsertNameHere
             textureCache.TryGetValue("BaseTexture", out tex);
             ground = new TileMatrix(100, 100, tex);
             mb = new BuildingMenuBar(textureCache);
+            mb.SetPosition(200, 200);
         }
 
         public void Draw(SpriteBatch spritebatch)
@@ -24,8 +26,13 @@ namespace InsertNameHere
             ground.Draw(spritebatch);
             if (gameState == GameState.Building)
             {
-                
+                mb.Draw(spritebatch);
             }
+        }
+
+        public void Update(GameTime gametime)
+        {
+
         }
     }
 }

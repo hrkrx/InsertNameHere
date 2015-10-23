@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace InsertNameHere
 {
@@ -31,9 +32,30 @@ namespace InsertNameHere
         public Tile(Texture2D texture, int size)
         {
             xSize = ySize = size;
+            if (texture.Bounds.Height == ySize && texture.Bounds.Width == xSize)
+            {
+                this.texture = texture;
+            }
+            else
+            {
+                throw new Exception("Wrong texturesize!");
+            }
         }
         
-
+        public Tile(Dictionary<string, Texture2D> textureCache, int size, string key)
+        {
+            Texture2D texture;
+            textureCache.TryGetValue(key, out texture);
+            xSize = ySize = size;
+            if (texture.Bounds.Height == ySize && texture.Bounds.Width == xSize)
+            {
+                this.texture = texture;
+            }
+            else
+            {
+                throw new Exception("Wrong texturesize!");
+            }
+        }
         public void SetSize(int height, int width)
         {
             xSize = width;

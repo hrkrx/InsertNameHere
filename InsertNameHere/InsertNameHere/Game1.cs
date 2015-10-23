@@ -55,6 +55,7 @@ namespace InsertNameHere
             Texture2D tmp;
             textureCache.TryGetValue("BuildCursor", out tmp);
             Cursor = new Tile(tmp);
+            Cursor.SetPosition(100, 100);
             l1 = new Level(textureCache);
         }
 
