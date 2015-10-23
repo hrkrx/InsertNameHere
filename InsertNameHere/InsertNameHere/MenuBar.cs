@@ -44,7 +44,7 @@ namespace InsertNameHere
                 mbMiddle.Draw(spritebatch);
                 c = i;
             }
-            mbEnd.SetPosition(position.X + c * 120, position.Y - 120);
+            mbEnd.SetPosition(position.X + c * 120 + 120, position.Y);
             mbEnd.Draw(spritebatch);
         }
 

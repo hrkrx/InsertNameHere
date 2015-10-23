@@ -52,10 +52,6 @@ namespace InsertNameHere
             textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
             textureCache.Add("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
             textureCache.Add("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
-            Texture2D tmp;
-            textureCache.TryGetValue("BuildCursor", out tmp);
-            Cursor = new Tile(tmp);
-            Cursor.SetPosition(100, 100);
             l1 = new Level(textureCache);
         }
 
@@ -80,29 +76,8 @@ namespace InsertNameHere
 
             if (ButtonCooldown <= 0)
             {
-                var LeftStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
-                var RightStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right;
-
-                if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || LeftStick.X <= -.5f || RightStick.X <= -.5f)
-                {
-                    Cursor.SetPosition(Cursor.xPosition - 100, Cursor.yPosition);
-                    ButtonCooldown = 10;
-                }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || LeftStick.X >= .5f || RightStick.X >= .5f)
-                {
-                    Cursor.SetPosition(Cursor.xPosition + 100, Cursor.yPosition);
-                    ButtonCooldown = 10;
-                }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || LeftStick.Y >= .5f || RightStick.Y >= .5f)
-                {
-                    Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition - 100);
-                    ButtonCooldown = 10;
-                }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || LeftStick.Y <= -.5f || RightStick.Y <= -.5f)
-                {
-                    Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 100);
-                    ButtonCooldown = 10;
-                }
+                l1.UpdateButtons(gameTime);
+                ButtonCooldown = 10;
             }
             // TODO: Add your update logic here
             if (ButtonCooldown > 0)
@@ -122,7 +97,6 @@ namespace InsertNameHere
             spriteBatch.Begin();
             // TODO: Add your drawing code here
             l1.Draw(spriteBatch);
-            Cursor.Draw(spriteBatch);
             base.Draw(gameTime);
             spriteBatch.End();
         }

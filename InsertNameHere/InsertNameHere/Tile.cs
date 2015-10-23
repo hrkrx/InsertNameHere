@@ -80,7 +80,7 @@ namespace InsertNameHere
         public void Draw(SpriteBatch spritebatch)
         {
             Vector2 r = new Vector2((int)(xPosition), (int)(yPosition));
-            spritebatch.Draw(texture, r, null, Color.White, (float)(Math.PI * 0.5 * (rotation / 90)), new Vector2(texture.Width, texture.Height), 1, SpriteEffects.None, 0);
+            spritebatch.Draw(texture, r, null, Color.White, (float)(Math.PI * 0.5 * (rotation / 90)), new Vector2(texture.Width / 2, texture.Height / 2), 1, SpriteEffects.None, 0);
         }
     }
 }
