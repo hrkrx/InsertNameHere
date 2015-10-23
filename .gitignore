@@ -1,3 +1,4 @@
+*.suo
 InsertNameHere/InsertNameHere/obj/*
 InsertNameHere/InsertNameHere/bin/*
 InsertNameHere/DebugKonsole/obj/*
