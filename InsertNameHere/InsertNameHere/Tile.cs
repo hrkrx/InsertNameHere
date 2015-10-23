@@ -28,6 +28,12 @@ namespace InsertNameHere
             }
         }
 
+        public Tile(Texture2D texture, int size)
+        {
+            xSize = ySize = size;
+        }
+        
+
         public void SetSize(int height, int width)
         {
             xSize = width;

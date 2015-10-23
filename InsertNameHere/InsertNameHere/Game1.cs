@@ -50,6 +50,8 @@ namespace InsertNameHere
             textureCache.Add("BuildCursor", Content.Load<Texture2D>("RedBorder.png"));
             textureCache.Add("WoodWall", Content.Load<Texture2D>("holzwand.png"));
             textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
+            textureCache.Add("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
+            textureCache.Add("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
             Texture2D tmp;
             textureCache.TryGetValue("BuildCursor", out tmp);
             Cursor = new Tile(tmp);
