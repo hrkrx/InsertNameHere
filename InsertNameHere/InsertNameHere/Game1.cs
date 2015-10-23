@@ -14,8 +14,8 @@ namespace InsertNameHere
         SpriteBatch spriteBatch;
         Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
         Level l1;
-        
-        Tile Cursor;
+
+        Camera2D camera;
         int ButtonCooldown = 0;
         public Game1()
         {
@@ -32,7 +32,9 @@ namespace InsertNameHere
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+            l1 = new Level(textureCache);
+            camera = new Camera2D(this, l1.Cursor);
+            Components.Add(camera);
             base.Initialize();
         }
 
@@ -52,7 +54,7 @@ namespace InsertNameHere
             textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
             textureCache.Add("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
             textureCache.Add("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
-            l1 = new Level(textureCache);
+            l1.Load();
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace InsertNameHere
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
             // TODO: Add your drawing code here
             l1.Draw(spriteBatch);
             base.Draw(gameTime);

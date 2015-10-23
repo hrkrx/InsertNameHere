@@ -9,9 +9,11 @@ namespace InsertNameHere
         protected float _viewportHeight;
         protected float _viewportWidth;
 
-        public Camera2D(Game game)
+        public Camera2D(Game game, IFocusable focus)
             : base(game)
-        { }
+        {
+            Focus = focus;
+        }
 
         #region Properties
 

@@ -11,16 +11,13 @@ namespace InsertNameHere
         TileMatrix ground;
         GameState gameState;
         BuildingMenuBar mb;
-        TileCursor Cursor;
+        public TileCursor Cursor { get; set; }
+        Dictionary<string, Texture2D> textureCache;
 
         public Level(Dictionary<string, Texture2D> textureCache)
         {
             gameState = GameState.Building;
-            Texture2D tex;
-            textureCache.TryGetValue("BaseTexture", out tex);
-            ground = new TileMatrix(100, 100, tex);
-            mb = new BuildingMenuBar(textureCache);
-            mb.SetPosition(200, 200);
+            this.textureCache = textureCache;
             Cursor = new TileCursor(textureCache, 100, "BuildCursor");
         }
 
@@ -32,6 +29,16 @@ namespace InsertNameHere
                 Cursor.Draw(spritebatch);
                 mb.Draw(spritebatch);
             }
+        }
+
+        public void Load()
+        {
+            Texture2D tex;
+            textureCache.TryGetValue("BaseTexture", out tex);
+            ground = new TileMatrix(100, 100, tex);
+            mb = new BuildingMenuBar(textureCache);
+            mb.SetPosition(200, 200);
+            Cursor.Load();
         }
 
         public void UpdateButtons(GameTime gametime)
