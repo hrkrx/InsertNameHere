@@ -14,6 +14,11 @@ namespace InsertNameHere
         TileMatrix ground;
 
         /// <summary>
+        /// Layer for building your base
+        /// </summary>
+        TileMatrix buildlayer;
+
+        /// <summary>
         /// The current GameState
         /// </summary>
         GameState gameState;
@@ -39,6 +44,11 @@ namespace InsertNameHere
         int ButtonCooldown = 0;
 
         /// <summary>
+        /// GraphicsDevice
+        /// </summary>
+        GraphicsDevice gr;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="textureCache"></param>
@@ -49,20 +59,32 @@ namespace InsertNameHere
             Cursor = new TileCursor(textureCache, 100, "BuildCursor");
         }
 
+        public void SetGraphicDevice(GraphicsDevice gr)
+        {
+            this.gr = gr;
+        }
+
         /// <summary>
         /// Draws everything with the given SpriteBatch
         /// </summary>
         /// <param name="spritebatch"></param>
-        public void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spritebatch, Camera2D camera)
         {
-            ground.Draw(spritebatch);
+            ground.Draw(spritebatch, camera);
+            buildlayer.Draw(spritebatch, camera);
             if (gameState == GameState.Building)
             {
-                Cursor.Draw(spritebatch);
-                mb.Draw(spritebatch);
+                Cursor.Draw(spritebatch, camera);
             }
         }
 
+        public void DrawOnScreen(SpriteBatch spritebatch, Camera2D camera)
+        {
+            if (gameState == GameState.Building)
+            {
+                mb.Draw(spritebatch, camera);
+            }
+        }
         /// <summary>
         /// Loads everything
         /// </summary>
@@ -70,7 +92,8 @@ namespace InsertNameHere
         {
             Texture2D tex;
             textureCache.TryGetValue("BaseTexture", out tex);
-            ground = new TileMatrix(40, 40, tex);
+            ground = new TileMatrix(100, 100, tex);
+            buildlayer = new TileMatrix(Color.Red, 100, 100, gr);
             mb = new BuildingMenuBar(textureCache);
             mb.SetPosition(200, 200);
             Cursor.Load();
@@ -88,7 +111,7 @@ namespace InsertNameHere
             }
             if (ButtonCooldown <= 0)
             { 
-            var LeftStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
+                var LeftStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
                 var RightStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right;
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || LeftStick.X <= -.5f || RightStick.X <= -.5f)
                 {
@@ -110,7 +133,14 @@ namespace InsertNameHere
                     Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 1);
                     ButtonCooldown = 10;
                 }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
+                {
+
+
+                }
             }
+
+            mb.Update(gametime);
         }
     }
 }

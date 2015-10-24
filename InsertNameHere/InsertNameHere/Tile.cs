@@ -28,7 +28,11 @@ namespace InsertNameHere
         /// initial Rotation
         /// </summary>
         public int rotation = 0;
-
+        
+        public Tile()
+        {
+        }
+        
         /// <summary>
         /// Constructor
         /// </summary>
@@ -84,6 +88,11 @@ namespace InsertNameHere
             }
         }
 
+        public void SetTexture(Texture2D texture)
+        {
+            this.texture = texture;
+        }
+
         /// <summary>
         /// Set the Size afterwards (no use yet)
         /// </summary>
@@ -123,10 +132,14 @@ namespace InsertNameHere
         /// Draws the Texture with the given SpriteBatch
         /// </summary>
         /// <param name="spritebatch"></param>
-        public void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spritebatch, Camera2D camera)
         {
             Vector2 r = new Vector2((int)(xPosition), (int)(yPosition));
-            spritebatch.Draw(texture, r, null, Color.White, (float)(Math.PI * 0.5 * (rotation / 90)), new Vector2(texture.Width / 2, texture.Height / 2), 1, SpriteEffects.None, 0);
+            if (camera == null || camera.IsInView(r, texture))
+            {
+                spritebatch.Draw(texture, r, null, Color.White, (float)(Math.PI * 0.5 * (rotation / 90)), new Vector2(texture.Width / 2, texture.Height / 2), 1, SpriteEffects.None, 0);
+
+            }
         }
     }
 }

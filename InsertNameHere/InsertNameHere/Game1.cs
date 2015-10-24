@@ -25,7 +25,6 @@ namespace InsertNameHere
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
         }
 
         /// <summary>
@@ -55,10 +54,12 @@ namespace InsertNameHere
             // TODO: use this.Content to load your game content here
             textureCache.Add("BaseTexture", Content.Load<Texture2D>("gras.png"));
             textureCache.Add("BuildCursor", Content.Load<Texture2D>("RedBorder.png"));
+            textureCache.Add("Stone", Content.Load<Texture2D>("stein.png"));
             textureCache.Add("WoodWall", Content.Load<Texture2D>("holzwand.png"));
             textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
             textureCache.Add("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
             textureCache.Add("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
+            l1.SetGraphicDevice(GraphicsDevice);
             l1.Load();
         }
 
@@ -120,8 +121,12 @@ namespace InsertNameHere
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
             // TODO: Add your drawing code here
-            l1.Draw(spriteBatch);
+            l1.Draw(spriteBatch, camera);
             base.Draw(gameTime);
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            l1.DrawOnScreen(spriteBatch, null);
             spriteBatch.End();
         }
     }

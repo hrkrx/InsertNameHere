@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 namespace InsertNameHere
@@ -14,7 +15,8 @@ namespace InsertNameHere
         /// <summary>
         /// selected Tile
         /// </summary>
-        Tile selected;
+        int selected;
+        Tile selector;
 
         /// <summary>
         /// TextureCache
@@ -30,6 +32,12 @@ namespace InsertNameHere
         /// Tiles used for the Menubackground
         /// </summary>
         Tile mbEnd, mbBegin, mbMiddle;
+
+        /// <summary>
+        /// ButtonCooldown variable
+        /// </summary>
+        int ButtonCooldown = 0;
+
         public BuildingMenuBar(Dictionary<string, Texture2D> textureCache)
         {
             this.textureCache = textureCache;
@@ -45,6 +53,8 @@ namespace InsertNameHere
             mbMiddle = new Tile(mbM, 120);
             buildthings.Add(new Tile(textureCache, 100, "WoodWall"));
             buildthings.Add(new Tile(textureCache, 100, "WoodWallCorner"));
+            buildthings.Add(new Tile(textureCache, 100, "Stone"));
+            selector = new Tile(textureCache, 100, "BuildCursor");
         }
 
         /// <summary>
@@ -61,20 +71,24 @@ namespace InsertNameHere
         /// Draw the Menu (including the buildthings)
         /// </summary>
         /// <param name="spritebatch"></param>
-        public void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spritebatch, Camera2D camera)
         {
             int c = 0;
             mbBegin.SetPosition(position.X, position.Y);
-            mbBegin.Draw(spritebatch);
+            mbBegin.Draw(spritebatch, camera);
             for (int i = 1; i <= buildthings.Count; i++)
             {
 
                 mbMiddle.SetPosition(position.X + i * 120, position.Y);
-                mbMiddle.Draw(spritebatch);
+                mbMiddle.Draw(spritebatch, camera);
+                buildthings[i - 1].SetPosition(position.X + i * 120, position.Y);
+                buildthings[i - 1].Draw(spritebatch, camera);
                 c = i;
             }
             mbEnd.SetPosition(position.X + c * 120 + 120, position.Y);
-            mbEnd.Draw(spritebatch);
+            mbEnd.Draw(spritebatch, camera);
+            selector.SetPosition(buildthings[selected].xPosition, buildthings[selected].yPosition);
+            selector.Draw(spritebatch, camera);
         }
 
         /// <summary>
@@ -84,6 +98,48 @@ namespace InsertNameHere
         public void Update(GameTime gametime)
         {
 
+            if (ButtonCooldown > 0)
+            {
+                ButtonCooldown--;
+            }
+            if (ButtonCooldown <= 0)
+            {
+                if (GamePad.GetState(PlayerIndex.One).Buttons.RightShoulder == ButtonState.Pressed)
+                {
+                    if (selected < buildthings.Count - 1)
+                    {
+                        selected++;
+                        ButtonCooldown = 10;
+                    }
+                }
+
+                if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
+                {
+                    if (selected > 0)
+                    {
+                        selected--;
+                        ButtonCooldown = 10;
+                    }
+                }
+
+                if (GamePad.GetState(PlayerIndex.One).Triggers.Left >= 0.5f)
+                {
+                    foreach (var item in buildthings)
+                    {
+                        item.Rotate(-90);
+                    }
+                    ButtonCooldown = 10;
+                }
+
+                if (GamePad.GetState(PlayerIndex.One).Triggers.Right >= 0.5f)
+                {
+                    foreach (var item in buildthings)
+                    {
+                        item.Rotate(90);
+                    }
+                    ButtonCooldown = 10;
+                }
+            }
         }
     }
 }

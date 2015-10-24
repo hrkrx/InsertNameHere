@@ -61,9 +61,9 @@ namespace InsertNameHere
         /// Draws the Texture
         /// </summary>
         /// <param name="spritebatch"></param>
-        public void Draw(SpriteBatch spritebatch)
+        public void Draw(SpriteBatch spritebatch, Camera2D camera)
         {
-            Cursor.Draw(spritebatch);
+            Cursor.Draw(spritebatch, camera);
         }
 
         /// <summary>

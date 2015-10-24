@@ -53,6 +53,8 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="SolidColorTexture2D.cs" />
+    <Compile Include="SolidColorTile.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileCursor.cs" />
     <Compile Include="TileMatrix.cs" />
@@ -86,7 +88,9 @@
     <Content Include="Content\RedBorder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\stein.png" />
+    <Content Include="Content\stein.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
