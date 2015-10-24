@@ -8,18 +8,51 @@ namespace InsertNameHere
 {
     public class Level
     {
+        /// <summary>
+        /// ground
+        /// </summary>
         TileMatrix ground;
+
+        /// <summary>
+        /// The current GameState
+        /// </summary>
         GameState gameState;
+
+        /// <summary>
+        /// MenuBar
+        /// </summary>
         BuildingMenuBar mb;
+
+        /// <summary>
+        /// The Cursor
+        /// </summary>
         public TileCursor Cursor { get; set; }
+
+        /// <summary>
+        /// TextureCache
+        /// </summary>
         Dictionary<string, Texture2D> textureCache;
+
+        /// <summary>
+        /// ButtonCooldown variable
+        /// </summary>
         int ButtonCooldown = 0;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="textureCache"></param>
         public Level(Dictionary<string, Texture2D> textureCache)
         {
             gameState = GameState.Building;
             this.textureCache = textureCache;
             Cursor = new TileCursor(textureCache, 100, "BuildCursor");
         }
+
+        /// <summary>
+        /// Draws everything with the given SpriteBatch
+        /// </summary>
+        /// <param name="spritebatch"></param>
         public void Draw(SpriteBatch spritebatch)
         {
             ground.Draw(spritebatch);
@@ -29,6 +62,10 @@ namespace InsertNameHere
                 mb.Draw(spritebatch);
             }
         }
+
+        /// <summary>
+        /// Loads everything
+        /// </summary>
         public void Load()
         {
             Texture2D tex;
@@ -38,6 +75,11 @@ namespace InsertNameHere
             mb.SetPosition(200, 200);
             Cursor.Load();
         }
+
+        /// <summary>
+        /// Updates Enviroment according to the buttons which were pressed
+        /// </summary>
+        /// <param name="gametime"></param>
         public void UpdateButtons(GameTime gametime)
         {
             if (ButtonCooldown > 0)
