@@ -9,6 +9,11 @@ namespace InsertNameHere
         protected float _viewportHeight;
         protected float _viewportWidth;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="focus">The Tile which should be focused by the camera</param>
         public Camera2D(Game game, IFocusable focus)
             : base(game)
         {
@@ -25,7 +30,7 @@ namespace InsertNameHere
         public float Rotation { get; set; }
         public Vector2 Origin { get; set; }
         public float Scale { get; set; }
-        public Vector2 ScreenCenter { get; protected set; }
+        public Vector2 ScreenCenter { get; set; }
         public Matrix Transform { get; set; }
         public IFocusable Focus { get; set; }
         public float MoveSpeed { get; set; }

@@ -14,9 +14,19 @@ namespace InsertNameHere
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            //Loads the Settings Window
+            Settings s = new Settings();
+            var res = s.ShowDialog();
+            if (res == System.Windows.Forms.DialogResult.OK)
             {
-                game.Run();
+                using (var game = new Game1())
+                {
+                    // Passes the Resolution and Fullscreen parameters
+                    game.LaunchParameters.Add("Height", s.rHeight);
+                    game.LaunchParameters.Add("Width", s.rWidth);
+                    game.LaunchParameters.Add("Fullscreen", s.Fullscreen ? "yes" : "no");
+                    game.Run();
+                }
             }
         }
     }

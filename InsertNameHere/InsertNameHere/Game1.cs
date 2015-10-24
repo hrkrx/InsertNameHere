@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace InsertNameHere
@@ -16,11 +17,15 @@ namespace InsertNameHere
         Level l1;
 
         Camera2D camera;
-        int ButtonCooldown = 0;
+        private bool userRequestedFullScreen = false;
+        private int userRequestedHeight = 600;
+        private int userRequestedWidth = 800;
+        bool firstrun = true;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -73,19 +78,36 @@ namespace InsertNameHere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (firstrun)
+            {
+                string fs, rh, rw;
+                LaunchParameters.TryGetValue("Fullscreen", out fs);
+                LaunchParameters.TryGetValue("Height", out rh);
+                LaunchParameters.TryGetValue("Width", out rw);
+                try
+                {
+                    int.TryParse(rh, out userRequestedHeight);
+                    int.TryParse(rw, out userRequestedWidth);
+                    userRequestedFullScreen = fs == "yes";
+                }
+                catch (System.Exception)
+                {
+                    throw;
+                }
+
+                graphics.IsFullScreen = userRequestedFullScreen;
+                graphics.PreferredBackBufferHeight = userRequestedHeight;
+                graphics.PreferredBackBufferWidth = userRequestedWidth;
+                graphics.ApplyChanges();
+                camera.ScreenCenter = new Vector2(userRequestedWidth / 2, userRequestedHeight / 2);
+                firstrun = false;
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            if (ButtonCooldown <= 0)
-            {
-                l1.UpdateButtons(gameTime);
-                ButtonCooldown = 10;
-            }
+           
+            l1.UpdateButtons(gameTime);
+            
             // TODO: Add your update logic here
-            if (ButtonCooldown > 0)
-            {
-                ButtonCooldown--;
-            }
             base.Update(gameTime);
         }
 
@@ -95,7 +117,7 @@ namespace InsertNameHere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
             // TODO: Add your drawing code here
             l1.Draw(spriteBatch);
