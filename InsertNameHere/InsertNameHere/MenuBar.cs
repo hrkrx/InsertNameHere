@@ -109,8 +109,12 @@ namespace InsertNameHere
                     if (selected < buildthings.Count - 1)
                     {
                         selected++;
-                        ButtonCooldown = 10;
+                        
+                    }else
+                    {
+                        selected = 0;
                     }
+                    ButtonCooldown = 10;
                 }
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
@@ -118,8 +122,12 @@ namespace InsertNameHere
                     if (selected > 0)
                     {
                         selected--;
-                        ButtonCooldown = 10;
                     }
+                    else
+                    {
+                        selected = buildthings.Count - 1;
+                    }
+                    ButtonCooldown = 10;
                 }
 
                 if (GamePad.GetState(PlayerIndex.One).Triggers.Left >= 0.5f)

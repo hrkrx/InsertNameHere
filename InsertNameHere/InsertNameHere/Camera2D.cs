@@ -87,11 +87,11 @@ namespace InsertNameHere
         {
             // If the object is not within the horizontal bounds of the screen
 
-            if ((position.X + texture.Width) < (Position.X - Origin.X) || (position.X) > (Position.X + Origin.X))
+            if ((position.X + texture.Width + 50) < (Position.X - Origin.X) || (position.X) > (Position.X + Origin.X + 50))
                 return false;
 
             // If the object is not within the vertical bounds of the screen
-            if ((position.Y + texture.Height) < (Position.Y - Origin.Y) || (position.Y) > (Position.Y + Origin.Y))
+            if ((position.Y + texture.Height + 50) < (Position.Y - Origin.Y) || (position.Y) > (Position.Y + Origin.Y + 50))
                 return false;
 
             // In View

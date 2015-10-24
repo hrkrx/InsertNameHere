@@ -78,7 +78,12 @@ namespace InsertNameHere
             }
         }
 
-        public void DrawOnScreen(SpriteBatch spritebatch, Camera2D camera)
+        /// <summary>
+        /// Draws everthing imoveable
+        /// </summary>
+        /// <param name="spritebatch"></param>
+        /// <param name="camera"></param>
+        public void DrawOnScreen(SpriteBatch spritebatch, Camera2D camera = null)
         {
             if (gameState == GameState.Building)
             {
