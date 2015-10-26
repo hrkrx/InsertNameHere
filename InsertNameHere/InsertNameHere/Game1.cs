@@ -20,6 +20,12 @@ namespace InsertNameHere
         private bool userRequestedFullScreen = false;
         private int userRequestedHeight = 600;
         private int userRequestedWidth = 800;
+        SpriteFont std_font;
+
+        int _total_frames = 0;
+        float _elapsed_time = 0.0f;
+        int _fps = 0;
+
         bool firstrun = true;
         public Game1()
         {
@@ -59,6 +65,7 @@ namespace InsertNameHere
             textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
             textureCache.Add("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
             textureCache.Add("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
+            //std_font = Content.Load<SpriteFont>("stdfont");
             l1.SetGraphicDevice(GraphicsDevice);
             l1.Load();
         }
@@ -79,6 +86,17 @@ namespace InsertNameHere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // Update
+            _elapsed_time += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            // 1 Second has passed
+            if (_elapsed_time >= 1000.0f)
+            {
+                _fps = _total_frames;
+                _total_frames = 0;
+                _elapsed_time = 0;
+            }
+
             if (firstrun)
             {
                 string fs, rh, rw;
@@ -127,6 +145,8 @@ namespace InsertNameHere
 
             spriteBatch.Begin();
             l1.DrawOnScreen(spriteBatch, null);
+            //spriteBatch.DrawString(std_font, string.Format("FPS={0}", _fps),
+            //    new Vector2(10.0f, 20.0f), Color.White);
             spriteBatch.End();
         }
     }

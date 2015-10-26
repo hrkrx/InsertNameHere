@@ -17,7 +17,7 @@ namespace InsertNameHere
         /// Layer for building your base
         /// </summary>
         TileMatrix buildlayer;
-
+        
         /// <summary>
         /// The current GameState
         /// </summary>
@@ -49,6 +49,11 @@ namespace InsertNameHere
         GraphicsDevice gr;
 
         /// <summary>
+        /// Levelmeasurements std = 50
+        /// </summary>
+        int height = 50, width = 50;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="textureCache"></param>
@@ -59,6 +64,10 @@ namespace InsertNameHere
             Cursor = new TileCursor(textureCache, 100, "BuildCursor");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gr"></param>
         public void SetGraphicDevice(GraphicsDevice gr)
         {
             this.gr = gr;
@@ -90,18 +99,31 @@ namespace InsertNameHere
                 mb.Draw(spritebatch, camera);
             }
         }
+        
         /// <summary>
         /// Loads everything
         /// </summary>
         public void Load()
         {
+            
             Texture2D tex;
             textureCache.TryGetValue("BaseTexture", out tex);
-            ground = new TileMatrix(100, 100, tex);
-            buildlayer = new TileMatrix(Color.Red, 100, 100, gr);
+            ground = new TileMatrix(height, width, tex);
+            buildlayer = new TileMatrix(Color.Red, height, width, gr);
             mb = new BuildingMenuBar(textureCache);
             mb.SetPosition(200, 200);
             Cursor.Load();
+        }
+
+        /// <summary>
+        /// Sets the Levelmeasurements. Must be called before Level.Load()
+        /// </summary>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
+        public void SetLevelMeasurements(int height, int width)
+        {
+            this.height = height;
+            this.width = width;
         }
 
         /// <summary>
@@ -120,8 +142,11 @@ namespace InsertNameHere
                 var RightStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right;
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || LeftStick.X <= -.5f || RightStick.X <= -.5f)
                 {
-                    Cursor.SetPosition(Cursor.xPosition - 1, Cursor.yPosition);
-                    ButtonCooldown = 10;
+                    if (Cursor.xPosition > 0)
+                    {
+                        Cursor.SetPosition(Cursor.xPosition - 1, Cursor.yPosition);
+                        ButtonCooldown = 10;
+                    }
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || LeftStick.X >= .5f || RightStick.X >= .5f)
                 {
@@ -130,8 +155,11 @@ namespace InsertNameHere
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || LeftStick.Y >= .5f || RightStick.Y >= .5f)
                 {
-                    Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition - 1);
-                    ButtonCooldown = 10;
+                    if (Cursor.yPosition > 0)
+                    {
+                        Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition - 1);
+                        ButtonCooldown = 10;
+                    }
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || LeftStick.Y <= -.5f || RightStick.Y <= -.5f)
                 {
@@ -140,11 +168,11 @@ namespace InsertNameHere
                 }
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
                 {
-
-
+                    Tile t = mb.GetSelected();
+                    t.SetPosition(Cursor.Position.X, Cursor.Position.Y);
+                    buildlayer.Replace(t, (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y));
                 }
             }
-
             mb.Update(gametime);
         }
     }

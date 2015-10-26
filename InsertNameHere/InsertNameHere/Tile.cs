@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace InsertNameHere
 {
-    public class Tile
+    public class Tile : ICloneable
     {
         /// <summary>
         /// Texture which gets drawn
@@ -140,6 +140,18 @@ namespace InsertNameHere
                 spritebatch.Draw(texture, r, null, Color.White, (float)(Math.PI * 0.5 * (rotation / 90)), new Vector2(texture.Width / 2, texture.Height / 2), 1, SpriteEffects.None, 0);
 
             }
+        }
+
+        /// <summary>
+        /// Returns a new object with equal attributes
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            Tile res = new Tile(texture, xSize);
+            res.Rotate(rotation);
+            res.SetPosition(xPosition, yPosition);
+            return res;
         }
     }
 }

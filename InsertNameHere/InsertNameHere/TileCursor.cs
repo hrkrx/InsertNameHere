@@ -77,5 +77,16 @@ namespace InsertNameHere
             yPosition = y;
             Cursor.SetPosition(x * 100, y * 100);
         }
+
+        /// <summary>
+        /// returns the Position in TileMatrix-conform coords
+        /// </summary>
+        /// <returns></returns>
+        public Vector2 GetPositionInTileMatrix()
+        {
+            Vector2 res;
+            res = new Vector2(xPosition, yPosition);
+            return res;
+        }
     }
 }

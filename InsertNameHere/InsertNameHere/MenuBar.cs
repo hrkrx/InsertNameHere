@@ -38,6 +38,10 @@ namespace InsertNameHere
         /// </summary>
         int ButtonCooldown = 0;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="textureCache"></param>
         public BuildingMenuBar(Dictionary<string, Texture2D> textureCache)
         {
             this.textureCache = textureCache;
@@ -55,6 +59,16 @@ namespace InsertNameHere
             buildthings.Add(new Tile(textureCache, 100, "WoodWallCorner"));
             buildthings.Add(new Tile(textureCache, 100, "Stone"));
             selector = new Tile(textureCache, 100, "BuildCursor");
+        }
+
+        /// <summary>
+        /// returns a clone of the selected Tile
+        /// </summary>
+        /// <returns></returns>
+        public Tile GetSelected()
+        {
+            Tile res = buildthings[selected].Clone() as Tile;
+            return res;
         }
 
         /// <summary>

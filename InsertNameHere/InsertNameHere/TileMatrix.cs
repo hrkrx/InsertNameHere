@@ -53,6 +53,11 @@ namespace InsertNameHere
             }
         }
 
+        public void Replace(Tile tile, int x, int y)
+        {
+            matrix[x][y] = tile;
+        }
+
         public void Draw (SpriteBatch spritebatch, Camera2D camera)
         {
             foreach (var item in matrix)
