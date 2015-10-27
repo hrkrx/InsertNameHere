@@ -1,4 +1,5 @@
 ﻿using System;
+using InsertNameHere.Controller;
 
 namespace InsertNameHere
 {
@@ -14,6 +15,7 @@ namespace InsertNameHere
         [STAThread]
         static void Main()
         {
+            Logger.Shoot("Init Settings Window");
             //Loads the Settings Window
             Settings s = new Settings();
             var res = s.ShowDialog();
@@ -21,13 +23,16 @@ namespace InsertNameHere
             {
                 using (var game = new Game1())
                 {
+                    Logger.Shoot("Init Settings for the Game");
                     // Passes the Resolution and Fullscreen parameters
                     game.LaunchParameters.Add("Height", s.rHeight);
                     game.LaunchParameters.Add("Width", s.rWidth);
                     game.LaunchParameters.Add("Fullscreen", s.Fullscreen ? "yes" : "no");
+                    Logger.Shoot(string.Format("Height = {0} Width = {1} Fullscreen = {2}", s.rHeight, s.rWidth, s.Fullscreen));
                     game.Run();
                 }
             }
+            Logger.Shoot("Exit");
         }
     }
 #endif

@@ -40,6 +40,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controller\Logger.cs" />
     <Compile Include="GameObjects\Map\ActionTile.cs" />
     <Compile Include="GameObjects\Camera2D.cs" />
     <Compile Include="Enums.cs" />
@@ -98,6 +99,7 @@
     </None>
     <None Include="Content\stdfont.spritefont">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <Content Include="Icon.ico" />
   </ItemGroup>
@@ -110,7 +112,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\" />
     <Folder Include="GameObjects\Creatures\Enemys\" />
     <Folder Include="GameObjects\Creatures\Heroes\" />
   </ItemGroup>
