@@ -17,19 +17,10 @@ namespace DebugKonsole
             udp.Client.Bind(localEp);
             while (true)
             {
-                
                 var receiveBytes = udp.Receive(ref localEp);
                 string res = Encoding.ASCII.GetString(receiveBytes);
                 Console.WriteLine(GetTimeString() + res);
-                if (res == "Exit")
-                {
-                    break;
-                }
-               
-               
             }
-            Console.ReadKey();
-            udp.Close();
         }
 
         static string GetTimeString()

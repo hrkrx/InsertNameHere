@@ -1,7 +1,9 @@
-﻿using InsertNameHere.Enums;
+﻿using InsertNameHere.Controller;
+using InsertNameHere.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace InsertNameHere
@@ -36,7 +38,7 @@ namespace InsertNameHere
         /// <summary>
         /// TextureCache
         /// </summary>
-        Dictionary<string, Texture2D> textureCache;
+        ConcurrentDictionary<string, Texture2D> textureCache;
 
         /// <summary>
         /// ButtonCooldown variable
@@ -51,13 +53,13 @@ namespace InsertNameHere
         /// <summary>
         /// Levelmeasurements std = 50
         /// </summary>
-        int height = 50, width = 50;
+        int height = 100, width = 100;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="textureCache"></param>
-        public Level(Dictionary<string, Texture2D> textureCache)
+        public Level(ConcurrentDictionary<string, Texture2D> textureCache)
         {
             gameState = GameState.Building;
             this.textureCache = textureCache;
@@ -150,8 +152,11 @@ namespace InsertNameHere
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || LeftStick.X >= .5f || RightStick.X >= .5f)
                 {
-                    Cursor.SetPosition(Cursor.xPosition + 1, Cursor.yPosition);
-                    ButtonCooldown = 10;
+                    if (Cursor.xPosition < width - 1)
+                    {
+                        Cursor.SetPosition(Cursor.xPosition + 1, Cursor.yPosition);
+                        ButtonCooldown = 10;
+                    }
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || LeftStick.Y >= .5f || RightStick.Y >= .5f)
                 {
@@ -163,14 +168,19 @@ namespace InsertNameHere
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || LeftStick.Y <= -.5f || RightStick.Y <= -.5f)
                 {
-                    Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 1);
-                    ButtonCooldown = 10;
+                    if (Cursor.yPosition < height - 1)
+                    {
+                        Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 1);
+                        ButtonCooldown = 10;
+                    }
                 }
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
                 {
                     Tile t = mb.GetSelected();
                     t.SetPosition(Cursor.Position.X, Cursor.Position.Y);
                     buildlayer.Replace(t, (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y));
+                    Logger.Shoot(string.Format("Place Tile on buildlayer[{0}][{1}]", (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y)));
+                    ButtonCooldown = 10;
                 }
             }
             mb.Update(gametime);

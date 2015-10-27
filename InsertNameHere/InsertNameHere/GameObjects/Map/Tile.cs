@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace InsertNameHere
@@ -73,7 +74,7 @@ namespace InsertNameHere
         /// <param name="textureCache">TextureCache</param>
         /// <param name="size">size</param>
         /// <param name="key">key, which was used to load the Texture into the cache</param>
-        public Tile(Dictionary<string, Texture2D> textureCache, int size, string key)
+        public Tile(ConcurrentDictionary<string, Texture2D> textureCache, int size, string key)
         {
             Texture2D texture;
             textureCache.TryGetValue(key, out texture);
@@ -132,7 +133,7 @@ namespace InsertNameHere
         /// Draws the Texture with the given SpriteBatch
         /// </summary>
         /// <param name="spritebatch"></param>
-        public void Draw(SpriteBatch spritebatch, Camera2D camera)
+        public void Draw(SpriteBatch spritebatch, Camera2D camera = null)
         {
             Vector2 r = new Vector2((int)(xPosition), (int)(yPosition));
             if (camera == null || camera.IsInView(r, texture))

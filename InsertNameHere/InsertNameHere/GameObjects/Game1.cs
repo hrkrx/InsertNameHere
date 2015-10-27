@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using InsertNameHere.Controller;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace InsertNameHere
@@ -13,7 +15,7 @@ namespace InsertNameHere
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
+        ConcurrentDictionary<string, Texture2D> textureCache = new ConcurrentDictionary<string, Texture2D>();
         Level l1;
 
         Camera2D camera;
@@ -57,17 +59,25 @@ namespace InsertNameHere
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Logger.Shoot("Begin Loading Textures");
+            DateTime dt = DateTime.Now;
             // TODO: use this.Content to load your game content here
-            textureCache.Add("BaseTexture", Content.Load<Texture2D>("gras.png"));
-            textureCache.Add("BuildCursor", Content.Load<Texture2D>("RedBorder.png"));
-            textureCache.Add("Stone", Content.Load<Texture2D>("stein.png"));
-            textureCache.Add("WoodWall", Content.Load<Texture2D>("holzwand.png"));
-            textureCache.Add("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
-            textureCache.Add("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
-            textureCache.Add("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
+            textureCache.TryAdd("BaseTexture", Content.Load<Texture2D>("gras.png"));
+            textureCache.TryAdd("BuildCursor", Content.Load<Texture2D>("RedBorder.png"));
+            textureCache.TryAdd("Stone", Content.Load<Texture2D>("stein.png"));
+            textureCache.TryAdd("WoodWall", Content.Load<Texture2D>("holzwand.png"));
+            textureCache.TryAdd("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
+            textureCache.TryAdd("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
+            textureCache.TryAdd("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
+            long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
+            Logger.Shoot("Finished Loading Textures (" + ms + ")");
             //std_font = Content.Load<SpriteFont>("stdfont");
+            Logger.Shoot("Start Generating Level");
+            dt = DateTime.Now;
             l1.SetGraphicDevice(GraphicsDevice);
             l1.Load();
+            ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
+            Logger.Shoot("Finished Generating Level (" + ms + ")");
         }
 
         /// <summary>
@@ -76,7 +86,7 @@ namespace InsertNameHere
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            // TODO: Unload any non ContentManager content 
         }
 
         /// <summary>
@@ -88,6 +98,7 @@ namespace InsertNameHere
         {
             // Update
             _elapsed_time += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+           
 
             // 1 Second has passed
             if (_elapsed_time >= 1000.0f)
@@ -95,10 +106,12 @@ namespace InsertNameHere
                 _fps = _total_frames;
                 _total_frames = 0;
                 _elapsed_time = 0;
+                Logger.Shoot("FPS = " + _fps.ToString());
             }
 
             if (firstrun)
             {
+                Logger.Shoot("Applying Usersettings");
                 string fs, rh, rw;
                 LaunchParameters.TryGetValue("Fullscreen", out fs);
                 LaunchParameters.TryGetValue("Height", out rh);
@@ -136,6 +149,7 @@ namespace InsertNameHere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            _total_frames++;
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
             // TODO: Add your drawing code here
@@ -145,8 +159,7 @@ namespace InsertNameHere
 
             spriteBatch.Begin();
             l1.DrawOnScreen(spriteBatch, null);
-            //spriteBatch.DrawString(std_font, string.Format("FPS={0}", _fps),
-            //    new Vector2(10.0f, 20.0f), Color.White);
+            
             spriteBatch.End();
         }
     }

@@ -8,6 +8,7 @@ namespace InsertNameHere.Enums
     public enum GameState
     {
         Building = 0,
-        Defending = 1
+        Defending = 1,
+        Loading = 2
     }
 }

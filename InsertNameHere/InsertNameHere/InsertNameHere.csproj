@@ -41,6 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controller\Logger.cs" />
+    <Compile Include="GameObjects\LoadingScreen.cs" />
     <Compile Include="GameObjects\Map\ActionTile.cs" />
     <Compile Include="GameObjects\Camera2D.cs" />
     <Compile Include="Enums.cs" />

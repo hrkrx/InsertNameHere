@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
+using System.Collections.Concurrent;
 
 namespace InsertNameHere
 {
@@ -21,7 +22,7 @@ namespace InsertNameHere
         /// <summary>
         /// TextureCache 
         /// </summary>
-        Dictionary<string, Texture2D> textureCache;
+        ConcurrentDictionary<string, Texture2D> textureCache;
         int size;
         string key;
 
@@ -31,7 +32,7 @@ namespace InsertNameHere
         /// <param name="textureCache">TextureCache</param>
         /// <param name="size">size</param>
         /// <param name="key">key, which was used to load the Texture into the cache</param>
-        public TileCursor (Dictionary<string, Texture2D> textureCache, int size, string key)
+        public TileCursor (ConcurrentDictionary<string, Texture2D> textureCache, int size, string key)
         {
             this.textureCache = textureCache;
             this.size = size;

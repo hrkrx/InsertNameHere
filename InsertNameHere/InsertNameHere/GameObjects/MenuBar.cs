@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace InsertNameHere
@@ -21,7 +22,7 @@ namespace InsertNameHere
         /// <summary>
         /// TextureCache
         /// </summary>
-        Dictionary<string, Texture2D> textureCache;
+        ConcurrentDictionary<string, Texture2D> textureCache;
 
         /// <summary>
         /// position
@@ -42,7 +43,7 @@ namespace InsertNameHere
         /// Constructor
         /// </summary>
         /// <param name="textureCache"></param>
-        public BuildingMenuBar(Dictionary<string, Texture2D> textureCache)
+        public BuildingMenuBar(ConcurrentDictionary<string, Texture2D> textureCache)
         {
             this.textureCache = textureCache;
             position = new Vector2(0, 0);
