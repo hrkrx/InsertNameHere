@@ -41,6 +41,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controller\Logger.cs" />
+    <Compile Include="Controller\PythonLoader.cs" />
+    <Compile Include="GameObjects\AnimatedTexture2D.cs" />
+    <Compile Include="GameObjects\Creatures\PlayermoveableObject.cs" />
     <Compile Include="GameObjects\LoadingScreen.cs" />
     <Compile Include="GameObjects\Map\ActionTile.cs" />
     <Compile Include="GameObjects\Camera2D.cs" />
@@ -64,6 +67,10 @@
     <Compile Include="GameObjects\Map\TileMatrix.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="IronPython, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="IronPython.Modules, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="IronPython.SQLite, Version=2.7.5.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -102,6 +109,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Help\Hilfe.txt" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +123,9 @@
   <ItemGroup>
     <Folder Include="GameObjects\Creatures\Enemys\" />
     <Folder Include="GameObjects\Creatures\Heroes\" />
+    <Folder Include="GameObjects\Effects\Projectiles\" />
+    <Folder Include="Scripts\KI\" />
+    <Folder Include="Scripts\Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

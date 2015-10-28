@@ -179,7 +179,7 @@ namespace InsertNameHere
                     Tile t = mb.GetSelected();
                     t.SetPosition(Cursor.Position.X, Cursor.Position.Y);
                     buildlayer.Replace(t, (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y));
-                    Logger.Shoot(string.Format("Place Tile on buildlayer[{0}][{1}]", (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y)));
+                    Logger.Shoot(string.Format("Placed Tile on buildlayer[x = {0}][y = {1}]", (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y)));
                     ButtonCooldown = 10;
                 }
             }

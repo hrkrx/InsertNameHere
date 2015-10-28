@@ -31,8 +31,14 @@ namespace InsertNameHere
         bool firstrun = true;
         public Game1()
         {
+            AppDomain.CurrentDomain.UnhandledException += LogUnhandled;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+        }
+
+        private void LogUnhandled(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Shoot((e.ExceptionObject as Exception).Message + "\n" + (e.ExceptionObject as Exception).StackTrace);
         }
 
         /// <summary>
@@ -99,7 +105,6 @@ namespace InsertNameHere
             // Update
             _elapsed_time += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
            
-
             // 1 Second has passed
             if (_elapsed_time >= 1000.0f)
             {
