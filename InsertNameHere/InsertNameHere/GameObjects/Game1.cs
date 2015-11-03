@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 
 namespace InsertNameHere
 {
@@ -18,7 +19,6 @@ namespace InsertNameHere
         ConcurrentDictionary<string, Texture2D> textureCache = new ConcurrentDictionary<string, Texture2D>();
         Level l1;
 
-        Camera2D camera;
         private bool userRequestedFullScreen = false;
         private int userRequestedHeight = 600;
         private int userRequestedWidth = 800;
@@ -129,8 +129,7 @@ namespace InsertNameHere
                 Exit();
            
             l1.UpdateButtons(gameTime);
-            
-            // TODO: Add your update logic here
+            l1.UpdateKI(gameTime);
             base.Update(gameTime);
         }
 

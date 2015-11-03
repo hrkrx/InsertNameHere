@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 
 namespace InsertNameHere
 {
@@ -71,6 +72,7 @@ namespace InsertNameHere
         /// parent GameContainer
         /// </summary>
         Game parentGame;
+
 
         /// <summary>
         /// Constructor
@@ -227,6 +229,18 @@ namespace InsertNameHere
                 }
             }
             mb.Update(gametime);
+        }
+
+        public void UpdateKI(GameTime gametime)
+        {
+            #region Testregion for Python performance
+            //PythonLoader plTest = new PythonLoader(File.ReadAllText(@"C:\Users\Sebastian\Documents\GitHubVisualStudio\InsertNameHere\InsertNameHere\InsertNameHere\Scripts\Test\TestScript.py"), "MathTest");
+            //Logger.Shoot("Start Executing PythonScript");
+            //DateTime dt = DateTime.Now;
+            //dynamic res = plTest.CallFunction("calc", 100);
+            //long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
+            //Logger.Shoot("Finished Executing Python (" + ms + "ms) Result = " + res.ToString());
+            #endregion
         }
     }
 }

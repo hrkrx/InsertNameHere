@@ -2,20 +2,53 @@
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace InsertNameHere.Controller
 {
     public class PythonLoader
     {
-        ScriptEngine engine = Python.CreateEngine();
-        public dynamic RunScript(string path, string method, string[] parameters)
+        private ScriptEngine engine;
+        private ScriptScope scope;
+        private ScriptSource source;
+        private CompiledCode compiled;
+        private object pythonClass;
+
+        public PythonLoader(string code, string className = "PyClass")
         {
-            string script = File.ReadAllText(path);
-            var scope = engine.CreateScope();
-            var source = engine.CreateScriptSourceFromString(script, SourceCodeKind.Statements);
-            var compiled = source.Compile();
-            var result = compiled.Execute(scope);
-            return result;
+            //creating engine and stuff
+            engine = Python.CreateEngine();
+            scope = engine.CreateScope();
+
+            //loading and compiling code
+            source = engine.CreateScriptSourceFromString(code, Microsoft.Scripting.SourceCodeKind.Statements);
+            compiled = source.Compile();
+
+            //now executing this code (the code should contain a class)
+            compiled.Execute(scope);
+
+            //now creating an object that could be used to access the stuff inside a python script
+            pythonClass = engine.Operations.Invoke(scope.GetVariable(className));
+        }
+
+        public void SetVariable(string variable, dynamic value)
+        {
+            scope.SetVariable(variable, value);
+        }
+
+        public dynamic GetVariable(string variable)
+        {
+            return scope.GetVariable(variable);
+        }
+
+        public void CallMethod(string method, params dynamic[] arguments)
+        {
+            engine.Operations.InvokeMember(pythonClass, method, arguments);
+        }
+
+        public dynamic CallFunction(string method, params dynamic[] arguments)
+        {
+            return engine.Operations.InvokeMember(pythonClass, method, arguments);
         }
     }
 }
