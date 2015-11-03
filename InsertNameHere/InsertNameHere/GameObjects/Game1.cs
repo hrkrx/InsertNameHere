@@ -50,9 +50,7 @@ namespace InsertNameHere
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            l1 = new Level(textureCache);
-            camera = new Camera2D(this, l1.Cursor);
-            Components.Add(camera);
+            l1 = new Level(textureCache, Components, this);
             base.Initialize();
         }
 
@@ -64,26 +62,13 @@ namespace InsertNameHere
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Logger.Shoot("Begin Loading Textures");
+            std_font = Content.Load<SpriteFont>("stdfont");
+            Logger.Shoot("Start Loading Level");
             DateTime dt = DateTime.Now;
-            // TODO: use this.Content to load your game content here
-            textureCache.TryAdd("BaseTexture", Content.Load<Texture2D>("gras.png"));
-            textureCache.TryAdd("BuildCursor", Content.Load<Texture2D>("RedBorder.png"));
-            textureCache.TryAdd("Stone", Content.Load<Texture2D>("stein.png"));
-            textureCache.TryAdd("WoodWall", Content.Load<Texture2D>("holzwand.png"));
-            textureCache.TryAdd("WoodWallCorner", Content.Load<Texture2D>("holzwandecke.png"));
-            textureCache.TryAdd("MenuBar", Content.Load<Texture2D>("Menüleiste.png"));
-            textureCache.TryAdd("MenuBarEnding", Content.Load<Texture2D>("Menüleistenendung.png"));
-            long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
-            Logger.Shoot("Finished Loading Textures (" + ms + ")");
-            //std_font = Content.Load<SpriteFont>("stdfont");
-            Logger.Shoot("Start Generating Level");
-            dt = DateTime.Now;
             l1.SetGraphicDevice(GraphicsDevice);
-            l1.Load();
-            ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
-            Logger.Shoot("Finished Generating Level (" + ms + ")");
+            l1.Load(Content);
+            long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
+            Logger.Shoot("Finished Loading Level (" + ms + ")");
         }
 
         /// <summary>
@@ -114,6 +99,7 @@ namespace InsertNameHere
                 Logger.Shoot("FPS = " + _fps.ToString());
             }
 
+            //Applies Settings in first run
             if (firstrun)
             {
                 Logger.Shoot("Applying Usersettings");
@@ -136,7 +122,7 @@ namespace InsertNameHere
                 graphics.PreferredBackBufferHeight = userRequestedHeight;
                 graphics.PreferredBackBufferWidth = userRequestedWidth;
                 graphics.ApplyChanges();
-                camera.ScreenCenter = new Vector2(userRequestedWidth / 2, userRequestedHeight / 2);
+                l1.camera.ScreenCenter = new Vector2(userRequestedWidth / 2, userRequestedHeight / 2);
                 firstrun = false;
             }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -154,17 +140,25 @@ namespace InsertNameHere
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            //count frames
             _total_frames++;
+
+            //clear Screen
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
-            // TODO: Add your drawing code here
-            l1.Draw(spriteBatch, camera);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, l1.camera.Transform);
+            #region Draw Screen (affected by camera)
+            l1.Draw(spriteBatch, l1.camera);
             base.Draw(gameTime);
+            #endregion
             spriteBatch.End();
 
             spriteBatch.Begin();
             l1.DrawOnScreen(spriteBatch, null);
-            
+
+            #region Debug Output on Screen
+            spriteBatch.DrawString(std_font, _fps.ToString(), new Vector2(20, 20), Color.Yellow);
+            #endregion
             spriteBatch.End();
         }
     }

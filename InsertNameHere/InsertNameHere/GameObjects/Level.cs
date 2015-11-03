@@ -1,8 +1,10 @@
 ﻿using InsertNameHere.Controller;
 using InsertNameHere.Enums;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
@@ -56,6 +58,21 @@ namespace InsertNameHere
         int height = 100, width = 100;
 
         /// <summary>
+        /// Level Camera
+        /// </summary>
+        public Camera2D camera;
+
+        /// <summary>
+        /// GameComponentCollection
+        /// </summary>
+        private GameComponentCollection components;
+
+        /// <summary>
+        /// parent GameContainer
+        /// </summary>
+        Game parentGame;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="textureCache"></param>
@@ -67,7 +84,22 @@ namespace InsertNameHere
         }
 
         /// <summary>
-        /// 
+        /// Constructor with internal camera init
+        /// </summary>
+        /// <param name="textureCache"></param>
+        /// <param name="components"></param>
+        /// <param name="parent"></param>
+        public Level(ConcurrentDictionary<string, Texture2D> textureCache, GameComponentCollection components, Game parent) : this(textureCache)
+        {
+            this.components = components;
+            parentGame = parent;
+            camera = new Camera2D(parentGame, Cursor);
+            components.Add(camera);
+            
+        }
+
+        /// <summary>
+        /// Sets the GraphicDevice for generating plain textures
         /// </summary>
         /// <param name="gr"></param>
         public void SetGraphicDevice(GraphicsDevice gr)
@@ -90,7 +122,7 @@ namespace InsertNameHere
         }
 
         /// <summary>
-        /// Draws everthing imoveable
+        /// Draws everthing imoveable (unaffected by camera)
         /// </summary>
         /// <param name="spritebatch"></param>
         /// <param name="camera"></param>
@@ -105,9 +137,20 @@ namespace InsertNameHere
         /// <summary>
         /// Loads everything
         /// </summary>
-        public void Load()
+        public void Load(ContentManager content)
         {
-            
+            Logger.Shoot("Begin Loading Textures");
+            DateTime dt = DateTime.Now;
+            // TODO: use this.Content to load your game content here
+            textureCache.TryAdd("BaseTexture", content.Load<Texture2D>("gras.png"));
+            textureCache.TryAdd("BuildCursor", content.Load<Texture2D>("RedBorder.png"));
+            textureCache.TryAdd("Stone", content.Load<Texture2D>("stein.png"));
+            textureCache.TryAdd("WoodWall", content.Load<Texture2D>("holzwand.png"));
+            textureCache.TryAdd("WoodWallCorner", content.Load<Texture2D>("holzwandecke.png"));
+            textureCache.TryAdd("MenuBar", content.Load<Texture2D>("Menüleiste.png"));
+            textureCache.TryAdd("MenuBarEnding", content.Load<Texture2D>("Menüleistenendung.png"));
+            long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
+            Logger.Shoot("Finished Loading Textures (" + ms + ")");
             Texture2D tex;
             textureCache.TryGetValue("BaseTexture", out tex);
             ground = new TileMatrix(height, width, tex);
