@@ -109,7 +109,9 @@
     <Content Include="Help\Hilfe.txt" />
     <Content Include="Icon.ico" />
     <None Include="Content\stdfont.spritefont" />
-    <None Include="Scripts\Test\TestScript.py" />
+    <None Include="Scripts\Test\TestScript.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

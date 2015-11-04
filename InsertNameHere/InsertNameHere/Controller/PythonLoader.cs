@@ -1,6 +1,8 @@
 ﻿using IronPython.Hosting;
 using Microsoft.Scripting;
 using Microsoft.Scripting.Hosting;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -23,12 +25,6 @@ namespace InsertNameHere.Controller
             //loading and compiling code
             source = engine.CreateScriptSourceFromString(code, Microsoft.Scripting.SourceCodeKind.Statements);
             compiled = source.Compile();
-
-            //now executing this code (the code should contain a class)
-            compiled.Execute(scope);
-
-            //now creating an object that could be used to access the stuff inside a python script
-            pythonClass = engine.Operations.Invoke(scope.GetVariable(className));
         }
 
         public void SetVariable(string variable, dynamic value)
@@ -49,6 +45,24 @@ namespace InsertNameHere.Controller
         public dynamic CallFunction(string method, params dynamic[] arguments)
         {
             return engine.Operations.InvokeMember(pythonClass, method, arguments);
+        }
+
+        public dynamic Execute(Dictionary<string, dynamic> parameters = null)
+        {
+            Logger.Shoot("Start Executing PythonScript");
+            if (parameters != null)
+            {
+                foreach (var item in parameters.Keys)
+                {
+                    Logger.Shoot("Variable " + item + " set to " + parameters[item].ToString());
+                    scope.SetVariable(item, parameters[item]);
+                }
+            }
+            DateTime dt = DateTime.Now;
+            dynamic res = compiled.Execute(scope);
+            long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
+            Logger.Shoot("Finished Executing Python (" + ms + "ms)");
+            return res;
         }
     }
 }

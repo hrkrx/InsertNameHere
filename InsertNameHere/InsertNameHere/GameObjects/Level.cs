@@ -73,6 +73,8 @@ namespace InsertNameHere
         /// </summary>
         Game parentGame;
 
+        PythonLoader plTest;
+
 
         /// <summary>
         /// Constructor
@@ -135,7 +137,7 @@ namespace InsertNameHere
                 mb.Draw(spritebatch, camera);
             }
         }
-        
+
         /// <summary>
         /// Loads everything
         /// </summary>
@@ -153,6 +155,10 @@ namespace InsertNameHere
             textureCache.TryAdd("MenuBarEnding", content.Load<Texture2D>("Menüleistenendung.png"));
             long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
             Logger.Shoot("Finished Loading Textures (" + ms + ")");
+            
+            // Load Python Scripts here
+            //plTest = new PythonLoader(File.ReadAllText(@"C:\Users\Sebastian\Documents\GitHubVisualStudio\InsertNameHere\InsertNameHere\InsertNameHere\Scripts\Test\TestScript.py"), "MathTest");
+
             Texture2D tex;
             textureCache.TryGetValue("BaseTexture", out tex);
             ground = new TileMatrix(height, width, tex);
@@ -234,12 +240,12 @@ namespace InsertNameHere
         public void UpdateKI(GameTime gametime)
         {
             #region Testregion for Python performance
-            //PythonLoader plTest = new PythonLoader(File.ReadAllText(@"C:\Users\Sebastian\Documents\GitHubVisualStudio\InsertNameHere\InsertNameHere\InsertNameHere\Scripts\Test\TestScript.py"), "MathTest");
-            //Logger.Shoot("Start Executing PythonScript");
-            //DateTime dt = DateTime.Now;
-            //dynamic res = plTest.CallFunction("calc", 100);
-            //long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
-            //Logger.Shoot("Finished Executing Python (" + ms + "ms) Result = " + res.ToString());
+            if (plTest != null)
+            {
+                Dictionary<string, dynamic> parameters = new Dictionary<string, dynamic>();
+                parameters.Add("N", 100);
+                plTest.Execute(parameters);
+            }
             #endregion
         }
     }
