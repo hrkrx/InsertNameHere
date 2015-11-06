@@ -9,6 +9,7 @@ namespace InsertNameHere.Enums
     {
         Building = 0,
         Defending = 1,
-        Loading = 2
+        Loading = 2,
+        Menu = 3
     }
 }

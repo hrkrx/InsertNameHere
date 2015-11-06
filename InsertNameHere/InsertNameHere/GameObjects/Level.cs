@@ -1,5 +1,6 @@
 ﻿using InsertNameHere.Controller;
 using InsertNameHere.Enums;
+using InsertNameHere.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -73,8 +74,12 @@ namespace InsertNameHere
         /// </summary>
         Game parentGame;
 
-        PythonLoader plTest;
+        /// <summary>
+        /// Loading Screen which is displayed while loading Textures Sounds and generating Stuff
+        /// </summary>
+        LoadingScreen loading;
 
+        PythonLoader plTest;
 
         /// <summary>
         /// Constructor
@@ -117,11 +122,21 @@ namespace InsertNameHere
         /// <param name="spritebatch"></param>
         public void Draw(SpriteBatch spritebatch, Camera2D camera)
         {
-            ground.Draw(spritebatch, camera);
-            buildlayer.Draw(spritebatch, camera);
-            if (gameState == GameState.Building)
+            switch (gameState)
             {
-                Cursor.Draw(spritebatch, camera);
+                case GameState.Building:
+                    ground.Draw(spritebatch, camera);
+                    buildlayer.Draw(spritebatch, camera);
+                    Cursor.Draw(spritebatch, camera);
+                    break;
+                case GameState.Defending:
+                    break;
+                case GameState.Loading:
+                    break;
+                case GameState.Menu:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -132,9 +147,19 @@ namespace InsertNameHere
         /// <param name="camera"></param>
         public void DrawOnScreen(SpriteBatch spritebatch, Camera2D camera = null)
         {
-            if (gameState == GameState.Building)
+            switch (gameState)
             {
-                mb.Draw(spritebatch, camera);
+                case GameState.Building:
+                    mb.Draw(spritebatch, camera);
+                    break;
+                case GameState.Defending:
+                    break;
+                case GameState.Loading:
+                    break;
+                case GameState.Menu:
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -143,18 +168,14 @@ namespace InsertNameHere
         /// </summary>
         public void Load(ContentManager content)
         {
-            Logger.Shoot("Begin Loading Textures");
-            DateTime dt = DateTime.Now;
-            // TODO: use this.Content to load your game content here
-            textureCache.TryAdd("BaseTexture", content.Load<Texture2D>("gras.png"));
-            textureCache.TryAdd("BuildCursor", content.Load<Texture2D>("RedBorder.png"));
-            textureCache.TryAdd("Stone", content.Load<Texture2D>("stein.png"));
-            textureCache.TryAdd("WoodWall", content.Load<Texture2D>("holzwand.png"));
-            textureCache.TryAdd("WoodWallCorner", content.Load<Texture2D>("holzwandecke.png"));
-            textureCache.TryAdd("MenuBar", content.Load<Texture2D>("Menüleiste.png"));
-            textureCache.TryAdd("MenuBarEnding", content.Load<Texture2D>("Menüleistenendung.png"));
-            long ms = (DateTime.Now.Ticks - dt.Ticks) / 1000;
-            Logger.Shoot("Finished Loading Textures (" + ms + ")");
+
+            textureCache.TryAdd("BaseTexture", content.Load<Texture2D>("Textures\\gras.png"));
+            textureCache.TryAdd("BuildCursor", content.Load<Texture2D>("Textures\\RedBorder.png"));
+            textureCache.TryAdd("Stone", content.Load<Texture2D>("Textures\\stein.png"));
+            textureCache.TryAdd("WoodWall", content.Load<Texture2D>("Textures\\holzwand.png"));
+            textureCache.TryAdd("WoodWallCorner", content.Load<Texture2D>("Textures\\holzwandecke.png"));
+            textureCache.TryAdd("MenuBar", content.Load<Texture2D>("Textures\\Menüleiste.png"));
+            textureCache.TryAdd("MenuBarEnding", content.Load<Texture2D>("Textures\\Menüleistenendung.png"));
             
             // Load Python Scripts here
             //plTest = new PythonLoader(File.ReadAllText(@"C:\Users\Sebastian\Documents\GitHubVisualStudio\InsertNameHere\InsertNameHere\InsertNameHere\Scripts\Test\TestScript.py"), "MathTest");
@@ -193,48 +214,138 @@ namespace InsertNameHere
             { 
                 var LeftStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Left;
                 var RightStick = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right;
+
+                //If the Player presses a button to get Left
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || LeftStick.X <= -.5f || RightStick.X <= -.5f)
                 {
-                    if (Cursor.xPosition > 0)
+                    switch (gameState)
                     {
-                        Cursor.SetPosition(Cursor.xPosition - 1, Cursor.yPosition);
-                        ButtonCooldown = 10;
+                        case GameState.Building:
+                            if (Cursor.xPosition > 0)
+                            {
+                                Cursor.SetPosition(Cursor.xPosition - 1, Cursor.yPosition);
+                                ButtonCooldown = 10;
+                            }
+                            break;
+                        case GameState.Defending:
+                            break;
+                        case GameState.Loading:
+                            break;
+                        case GameState.Menu:
+                            break;
+                        default:
+                            break;
                     }
                 }
+
+                //If the Player presses a button to get Right
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || LeftStick.X >= .5f || RightStick.X >= .5f)
                 {
-                    if (Cursor.xPosition < width - 1)
+                    switch (gameState)
                     {
-                        Cursor.SetPosition(Cursor.xPosition + 1, Cursor.yPosition);
-                        ButtonCooldown = 10;
+                        case GameState.Building:
+                            if (Cursor.xPosition < width - 1)
+                            {
+                                Cursor.SetPosition(Cursor.xPosition + 1, Cursor.yPosition);
+                                ButtonCooldown = 10;
+                            }
+                            break;
+                        case GameState.Defending:
+                            break;
+                        case GameState.Loading:
+                            break;
+                        case GameState.Menu:
+                            break;
+                        default:
+                            break;
                     }
                 }
+
+                //If the Player presses a button to get Up
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || LeftStick.Y >= .5f || RightStick.Y >= .5f)
                 {
-                    if (Cursor.yPosition > 0)
+                    switch (gameState)
                     {
-                        Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition - 1);
-                        ButtonCooldown = 10;
+                        case GameState.Building:
+                            if (Cursor.yPosition > 0)
+                            {
+                                Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition - 1);
+                                ButtonCooldown = 10;
+                            }
+                            break;
+                        case GameState.Defending:
+                            break;
+                        case GameState.Loading:
+                            break;
+                        case GameState.Menu:
+                            break;
+                        default:
+                            break;
                     }
                 }
+
+                //If the Player presses a button to get Down
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || LeftStick.Y <= -.5f || RightStick.Y <= -.5f)
                 {
-                    if (Cursor.yPosition < height - 1)
+                    switch (gameState)
                     {
-                        Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 1);
-                        ButtonCooldown = 10;
+                        case GameState.Building:
+                            if (Cursor.yPosition < height - 1)
+                            {
+                                Cursor.SetPosition(Cursor.xPosition, Cursor.yPosition + 1);
+                                ButtonCooldown = 10;
+                            }
+                            break;
+                        case GameState.Defending:
+                            break;
+                        case GameState.Loading:
+                            break;
+                        case GameState.Menu:
+                            break;
+                        default:
+                            break;
                     }
                 }
+
+                //If the Player presses a button to do something
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
                 {
-                    Tile t = mb.GetSelected();
-                    t.SetPosition(Cursor.Position.X, Cursor.Position.Y);
-                    buildlayer.Replace(t, (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y));
-                    Logger.Shoot(string.Format("Placed Tile on buildlayer[x = {0}][y = {1}]", (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y)));
-                    ButtonCooldown = 10;
+                    switch (gameState)
+                    {
+                        case GameState.Building:
+                            Tile t = mb.GetSelected();
+                            t.SetPosition(Cursor.Position.X, Cursor.Position.Y);
+                            buildlayer.Replace(t, (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y));
+                            Logger.Shoot(string.Format("Placed Tile on buildlayer[x = {0}][y = {1}]", (int)(Cursor.GetPositionInTileMatrix().X), (int)(Cursor.GetPositionInTileMatrix().Y)));
+                            ButtonCooldown = 10;
+                            break;
+                        case GameState.Defending:
+                            break;
+                        case GameState.Loading:
+                            break;
+                        case GameState.Menu:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-            mb.Update(gametime);
+
+            //Update only specific components
+            switch (gameState)
+            {
+                case GameState.Building:
+                    mb.Update(gametime);
+                    break;
+                case GameState.Defending:
+                    break;
+                case GameState.Loading:
+                    break;
+                case GameState.Menu:
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void UpdateKI(GameTime gametime)
@@ -247,6 +358,11 @@ namespace InsertNameHere
                 plTest.Execute(parameters);
             }
             #endregion
+        }
+
+        public void UpdateSoundQueue()
+        {
+
         }
     }
 }

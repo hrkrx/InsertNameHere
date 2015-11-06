@@ -40,6 +40,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controller\ContentLoader.cs" />
     <Compile Include="Controller\Logger.cs" />
     <Compile Include="Controller\PythonLoader.cs" />
     <Compile Include="GameObjects\AnimatedTexture2D.cs" />
@@ -82,25 +83,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\gras.png">
+    <Content Include="Content\Textures\gras.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\holzwand.png">
+    <Content Include="Content\Textures\Hero.png" />
+    <Content Include="Content\Textures\Hero2.png" />
+    <Content Include="Content\Textures\holzwand.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\holzwandecke.png">
+    <Content Include="Content\Textures\holzwandecke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Menüleiste.png">
+    <Content Include="Content\Textures\Menüleiste.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Menüleistenendung.png">
+    <Content Include="Content\Textures\Menüleistenendung.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\RedBorder.png">
+    <Content Include="Content\Textures\RedBorder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\stein.png">
+    <Content Include="Content\Textures\stein.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Dreamwalker.otf">
@@ -109,7 +112,7 @@
     <Content Include="Help\Hilfe.txt" />
     <Content Include="Icon.ico" />
     <None Include="Content\stdfont.spritefont" />
-    <None Include="Scripts\Test\TestScript.py">
+    <None Include="Content\Scripts\Test\TestScript.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -122,10 +125,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Scripts\KI\" />
+    <Folder Include="Content\SFX\" />
     <Folder Include="GameObjects\Creatures\Enemys\" />
     <Folder Include="GameObjects\Creatures\Heroes\" />
-    <Folder Include="GameObjects\Effects\Projectiles\" />
-    <Folder Include="Scripts\KI\" />
+    <Folder Include="GameObjects\Map\Effects\Projectiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
