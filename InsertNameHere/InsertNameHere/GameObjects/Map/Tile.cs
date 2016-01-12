@@ -11,7 +11,7 @@ namespace InsertNameHere
         /// <summary>
         /// Texture which gets drawn
         /// </summary>
-        private Texture2D texture = null;
+        public Texture2D texture = null;
 
         /// <summary>
         /// Exact size of the Texture
@@ -133,7 +133,7 @@ namespace InsertNameHere
         /// Draws the Texture with the given SpriteBatch
         /// </summary>
         /// <param name="spritebatch"></param>
-        public void Draw(SpriteBatch spritebatch, Camera2D camera = null)
+        public virtual void Draw(SpriteBatch spritebatch, Camera2D camera = null)
         {
             Vector2 r = new Vector2((int)(xPosition), (int)(yPosition));
             if (camera == null || camera.IsInView(r, texture))

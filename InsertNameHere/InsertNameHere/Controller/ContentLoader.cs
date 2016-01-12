@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using InsertNameHere.GameObjects.Map;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +26,7 @@ namespace InsertNameHere.Controller
 
         /// <summary>
         /// SoundEffect
-        /// </summary>
+        /// </summary>       
         public ConcurrentDictionary<string, SoundEffect> sfxCache;
 
         /// <summary>

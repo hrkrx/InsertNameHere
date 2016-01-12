@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace InsertNameHere
+namespace InsertNameHere.GameObjects.Map
 {
     public class SolidColorTile : Tile
     {

@@ -1,6 +1,7 @@
 ﻿using InsertNameHere.Controller;
 using InsertNameHere.Enums;
 using InsertNameHere.GameObjects;
+using InsertNameHere.GameObjects.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -155,6 +156,7 @@ namespace InsertNameHere
                 case GameState.Defending:
                     break;
                 case GameState.Loading:
+                    loading.Draw(spritebatch);
                     break;
                 case GameState.Menu:
                     break;
@@ -356,6 +358,7 @@ namespace InsertNameHere
                 Dictionary<string, dynamic> parameters = new Dictionary<string, dynamic>();
                 parameters.Add("N", 100);
                 plTest.Execute(parameters);
+                
             }
             #endregion
         }

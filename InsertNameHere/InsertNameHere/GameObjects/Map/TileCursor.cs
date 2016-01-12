@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections.Concurrent;
 
-namespace InsertNameHere
+namespace InsertNameHere.GameObjects.Map
 {
     public class TileCursor : IFocusable
     {

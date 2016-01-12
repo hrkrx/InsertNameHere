@@ -45,11 +45,15 @@
     <Compile Include="Controller\PythonLoader.cs" />
     <Compile Include="GameObjects\AnimatedTexture2D.cs" />
     <Compile Include="GameObjects\Creatures\PlayermoveableObject.cs" />
+    <Compile Include="GameObjects\Map\IsometricTile.cs" />
     <Compile Include="GameObjects\LoadingScreen.cs" />
     <Compile Include="GameObjects\Map\ActionTile.cs" />
     <Compile Include="GameObjects\Camera2D.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="GameObjects\Game1.cs" />
+    <Compile Include="GameObjects\Map\HeightMap.cs" />
+    <Compile Include="GameObjects\Map\IsometricTileEngine.cs" />
+    <Compile Include="GameObjects\Map\RotationMatrix2d.cs" />
     <Compile Include="Interfaces\Behavior\Tiles\TileBehavior.cs" />
     <Compile Include="GameObjects\Level.cs" />
     <Compile Include="GameObjects\MenuBar.cs" />
@@ -94,6 +98,7 @@
     <Content Include="Content\Textures\holzwandecke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Textures\isometricTile.png" />
     <Content Include="Content\Textures\Menüleiste.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

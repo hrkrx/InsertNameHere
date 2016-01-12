@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InsertNameHere
+namespace InsertNameHere.GameObjects.Map
 {
     public class TileMatrix
     {
